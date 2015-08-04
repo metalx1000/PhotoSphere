@@ -23,25 +23,25 @@
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
     camera.position.x = 0.1;
-    var sphereIMG = getVar("img");
+    var controls;
+
     var renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
     renderer.setSize(width, height);
 
-    var sphere = new THREE.Mesh(
-            new THREE.SphereGeometry(100, 20, 20),
-            new THREE.MeshBasicMaterial({
-                    map: THREE.ImageUtils.loadTexture(sphereIMG)
-            })
-    );
-    sphere.scale.x = -1;
-    scene.add(sphere);
+    //load and check sphere img
+    var sphereIMG = getVar("img");
+    imageExists(sphereIMG, function(exists) {
+      if(exists){
+        //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
+        loadSphere();
+      }else{
+        alert("Sorry, the tour you chose does not exist");
+        sphereIMG = "station24bay.jpg";
+        loadSphere();
+      }
+    });    
 
-    var controls = new THREE.OrbitControls(camera);
-    controls.noPan = true;
-    controls.noZoom = true; 
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-
+    loadControls();
     webglEl.appendChild(renderer.domElement);
 
     render();
@@ -84,6 +84,33 @@
           results = regex.exec(location.search);
       return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
+
+    function imageExists(url, callback) {
+      var img = new Image();
+      img.onload = function() { callback(true); };
+      img.onerror = function() { callback(false); };
+      img.src = url;
+    }
+
+  function loadSphere(){
+    var sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(100, 20, 20),
+      new THREE.MeshBasicMaterial({
+        map: THREE.ImageUtils.loadTexture(sphereIMG)
+      })
+    );
+    sphere.scale.x = -1;
+    scene.add(sphere);
+  }
+
+  function loadControls(){ 
+    controls = new THREE.OrbitControls(camera);
+    controls.noPan = true;
+    controls.noZoom = true; 
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+  }
+
   </script>
 </body>
 </html>
