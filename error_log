@@ -1,0 +1,9 @@
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(connect.php): failed to open stream: No such file or directory in /home3/metalx/public_html/PhotoSphere/get.php on line 2
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(connect.php): failed to open stream: No such file or directory in /home3/metalx/public_html/PhotoSphere/get.php on line 2
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(): Failed opening 'connect.php' for inclusion (include_path='.:/opt/php54/lib/php') in /home3/metalx/public_html/PhotoSphere/get.php on line 2
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(tables.php): failed to open stream: No such file or directory in /home3/metalx/public_html/PhotoSphere/get.php on line 3
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(tables.php): failed to open stream: No such file or directory in /home3/metalx/public_html/PhotoSphere/get.php on line 3
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  include(): Failed opening 'tables.php' for inclusion (include_path='.:/opt/php54/lib/php') in /home3/metalx/public_html/PhotoSphere/get.php on line 3
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 7
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 9
+[06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 13
