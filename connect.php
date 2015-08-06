@@ -1,7 +1,7 @@
 <?php
 $host="localhost";
 $user="root";
-$pwd="root";
+$pwd="root123";
 $db="test";
 // Create connection
 $con=mysqli_connect($host,$user,$pwd,$db);
