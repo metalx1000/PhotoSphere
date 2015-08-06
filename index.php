@@ -9,7 +9,11 @@
       background-color: #000; 
     }
   </style>	
-  <meta charset="utf-8"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div id="sphere"></div>
@@ -29,18 +33,24 @@
     var renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
     renderer.setSize(width, height);
 
-    //load and check sphere img
-    var sphereIMG = getVar("img");
-    imageExists(sphereIMG, function(exists) {
-      if(exists){
-        //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
-        loadSphere();
-      }else{
-        alert("Sorry, the tour you chose does not exist");
-        sphereIMG = "station24bay.jpg";
-        loadSphere();
-      }
-    });    
+    //load info and check sphere img
+    var pid = getVar("pid");
+    var name,phone,site;
+    var images = [];
+    $(document).ready(function(){
+      $.getJSON("get.php",{pid:pid},function(data){
+        var imgs = JSON.parse(data[0].images);
+        imgs.forEach(function(img){
+          images.push(img.img);
+        });
+        name = data[0].name;
+        site = data[0].site;
+        phone = data[0].phone;
+      }).done(function(){   
+        loadImage(0);
+      });
+    });
+
 
     loadControls();
     webglEl.appendChild(renderer.domElement);
@@ -110,6 +120,20 @@
     controls.noZoom = true; 
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
+  }
+
+  function loadImage(i){
+    sphereIMG = "tours/"+pid+"/"+images[i];
+    imageExists(sphereIMG, function(exists) {
+      if(exists){
+        //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
+        loadSphere();
+      }else{
+        alert("Sorry, the tour you chose does not exist");
+        sphereIMG = "station24bay.jpg";
+        loadSphere();
+      }
+    });    
   }
 
   </script>

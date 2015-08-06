@@ -7,3 +7,4 @@
 [06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 7
 [06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 9
 [06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 13
+[06-Aug-2015 12:01:37 America/Chicago] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home3/metalx/public_html/PhotoSphere/get.php on line 9
