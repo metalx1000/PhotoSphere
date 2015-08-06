@@ -7,7 +7,16 @@
       margin: 0px; 
       overflow: hidden; 
       background-color: #000; 
+    } #thumbs{
+      position: absolute;
+    } .thumb{
+      width: 100px;
+      border-radius: 10px;
+      opacity: 0.4;
+    } .thumb:hover{
+      opacity: 1.0;
     }
+
   </style>	
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +25,8 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
+  <div id="thumbs">
+  </div>  
   <div id="sphere"></div>
   <script src="js/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>	
@@ -48,6 +59,12 @@
         phone = data[0].phone;
       }).done(function(){   
         loadImage(0);
+        createThumbs();
+      });
+
+      $("#thumbs").on("click","img",function(){
+        var image = $(this).attr('image');
+        loadImage(image);
       });
     });
 
@@ -136,6 +153,12 @@
     });    
   }
 
+  function createThumbs(){
+    for(var i = 0;i<images.length;i++){
+      var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
+      $("#thumbs").append(html);
+    }
+  }
   </script>
 </body>
 </html>
