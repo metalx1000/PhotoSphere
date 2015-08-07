@@ -65,6 +65,8 @@
       $("#thumbs").on("mouseover","img",function(){
         var image = $(this).attr('image');
         loadImage(image);
+        $(".thumb").fadeTo( "slow", .3 );
+        $( this ).fadeTo( "fast", 1 );
       });
     });
 
