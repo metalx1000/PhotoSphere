@@ -15,8 +15,31 @@
       opacity: 0.4;
     } .thumb:hover{
       opacity: 1.0;
+    }.coner{
+      height: 128px;
+      border-radius: 10px;
+      float: right;
     }
 
+    
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 128px;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 128px;
+  //background-color: #f5f5f5;
+}
   </style>	
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,8 +48,8 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div id="thumbs">
-  </div>  
+  <div id="thumbs"></div>  
+  <footer id="footer"><img src="" id="agentImg" class="coner right"></footer>
   <div id="sphere"></div>
   <script src="js/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>	
@@ -60,6 +83,7 @@
       }).done(function(){   
         loadImage(0);
         createThumbs();
+        $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
       });
 
       $("#thumbs").on("mouseover","img",function(){
