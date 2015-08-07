@@ -99,6 +99,7 @@
     document.addEventListener('mousewheel', onMouseWheel, false);
     document.addEventListener('DOMMouseScroll', onMouseWheel, false);
     window.addEventListener( 'resize', onWindowResize, false );
+    document.body.addEventListener("mousedown", fullscreen, false);
 
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -140,7 +141,7 @@
   }
 
   function loadImage(i){
-    sphereIMG = "tours/"+pid+"/"+images[i];
+    sphereIMG = "tours/"+pid+"/spheres/"+images[i];
     imageExists(sphereIMG, function(exists) {
       if(exists){
         //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
@@ -158,6 +159,16 @@
       var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
       $("#thumbs").append(html);
     }
+  }
+
+  function fullscreen(){
+      var element = document.body;
+      element.requestFullscreen = element.requestFullscreen || 
+          element.mozRequestFullscreen || 
+          element.mozRequestFullScreen || 
+          element.webkitRequestFullscreen;
+
+      element.requestFullscreen();
   }
   </script>
 </body>
