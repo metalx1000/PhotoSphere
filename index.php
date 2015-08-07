@@ -62,7 +62,7 @@
         createThumbs();
       });
 
-      $("#thumbs").on("click","img",function(){
+      $("#thumbs").on("mouseover","img",function(){
         var image = $(this).attr('image');
         loadImage(image);
       });
