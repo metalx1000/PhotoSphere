@@ -1,99 +1,152 @@
-THREE.Photosphere = function (domEl, image, options) {
-	options = options || {};
+//scene setup
+var webglEl = document.getElementById('sphere');
+var width  = window.innerWidth;
+var height = window.innerHeight;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+camera.position.x = 0.1;
+var controls;
 
-	var camera, controls, scene, renderer, sphere;
+var renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
+renderer.setSize(width, height);
 
-	var webglSupport = (function(){ 
-		try { 
-			var canvas = document.createElement( 'canvas' ); 
-			return !! (window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))); 
-		} catch(e) { 
-			return false; 
-		} 
-	})();
+//load info and check sphere img
+var pid = getVar("pid");
+var name,phone,site;
+var images = [];
+$(document).ready(function(){
+  $.getJSON("get.php",{pid:pid},function(data){
+    var imgs = JSON.parse(data[0].images);
+    imgs.forEach(function(img){
+      images.push(img.img);
+    });
+    agent = data[0].agent;
+    site = data[0].site;
+    phone = data[0].phone;
+    address = data[0].address;
+  
+    $("#address").html(address);
+    $("#agent").html(agent);
+    $("#phone").html(phone);
+  }).done(function(){   
+    loadImage(0);
+    createThumbs();
+    $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
+  });
 
-	init();
-	render();
+  $("#agentImg").hover(function(){
+    $("#info").fadeTo( "slow", .4 );
+  },function(){
+    $("#info").fadeTo( "slow", 0 );
+  });
 
-	function init () {
-		// http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
-		camera = new THREE.PerspectiveCamera(options.view || 75, domEl.offsetWidth / domEl.offsetHeight, 1, 1000);
-		camera.position.x = 0.1;
-		camera.position.y = options.y || 0;
+  $("#thumbs").on("mouseover","img",function(){
+    var image = $(this).attr('image');
+    loadImage(image);
+    $(".thumb").fadeTo( "slow", .3 );
+    $( this ).fadeTo( "fast", 1 );
+  });
+});
 
-		controls = new THREE.OrbitControls(camera);
-		controls.noPan = true;
-		controls.noZoom = true; 
-		controls.autoRotate = true;
-		controls.autoRotateSpeed = options.speed || 0.5;
-		controls.addEventListener('change', render);
 
-		scene = new THREE.Scene();
+loadControls();
+webglEl.appendChild(renderer.domElement);
 
-		var texture = THREE.ImageUtils.loadTexture(image);
-		texture.minFilter = THREE.LinearFilter;
+render();
 
-		sphere = new THREE.Mesh(
-			new THREE.SphereGeometry(100, 20, 20),
-			new THREE.MeshBasicMaterial({
-				map: texture
-			})
-		);
+function render() {
+  controls.update();
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
+}
 
-		sphere.scale.x = -1;
-		scene.add(sphere);
+function onMouseWheel(event) {
+  event.preventDefault();
+  
+  if (event.wheelDeltaY) { // WebKit
+          camera.fov -= event.wheelDeltaY * 0.05;
+  } else if (event.wheelDelta) { 	// Opera / IE9
+          camera.fov -= event.wheelDelta * 0.05;
+  } else if (event.detail) { // Firefox
+          camera.fov += event.detail * 1.0;
+  }
 
-		renderer = webglSupport ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
-		renderer.setSize(domEl.offsetWidth, domEl.offsetHeight);		
+  camera.fov = Math.max(40, Math.min(100, camera.fov));
+  camera.updateProjectionMatrix();
+}
 
-		domEl.appendChild(renderer.domElement);
+//events
+document.addEventListener('mousewheel', onMouseWheel, false);
+document.addEventListener('DOMMouseScroll', onMouseWheel, false);
+window.addEventListener( 'resize', onWindowResize, false );
+document.body.addEventListener("mousedown", fullscreen, false);
 
-		domEl.addEventListener('mousewheel', onMouseWheel, false);
-		domEl.addEventListener('DOMMouseScroll', onMouseWheel, false);
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+}
 
-		animate();
-	}
+function getVar(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
-	function render () {
-		renderer.render(scene, camera);
-	}
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
 
-	function animate () {
-		requestAnimationFrame(animate);
-		controls.update();
-	}
+function loadSphere(){
+  var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(100, 20, 20),
+    new THREE.MeshBasicMaterial({
+      map: THREE.ImageUtils.loadTexture(sphereIMG)
+    })
+  );
+  sphere.scale.x = -1;
+  scene.add(sphere);
+}
 
-	function onMouseWheel (evt) {
-		evt.preventDefault();
-			
-		if (evt.wheelDeltaY) { // WebKit
-			camera.fov -= evt.wheelDeltaY * 0.05;
-		} else if (evt.wheelDelta) { 	// Opera / IE9
-			camera.fov -= evt.wheelDelta * 0.05;
-		} else if (evt.detail) { // Firefox
-			camera.fov += evt.detail * 1.0;
-		}
-		camera.fov = Math.max(20, Math.min(100, camera.fov));
-		camera.updateProjectionMatrix();
-	}
+function loadControls(){ 
+  controls = new THREE.OrbitControls(camera);
+  controls.noPan = true;
+  controls.noZoom = true; 
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.5;
+}
 
-	function resize () {
-		camera.aspect = domEl.offsetWidth / domEl.offsetHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(domEl.offsetWidth, domEl.offsetHeight);
-		render();
-	}
+function loadImage(i){
+  sphereIMG = "tours/"+pid+"/spheres/"+images[i];
+  imageExists(sphereIMG, function(exists) {
+    if(exists){
+      //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
+      loadSphere();
+    }else{
+      alert("Sorry, the tour you chose does not exist");
+      sphereIMG = "station24bay.jpg";
+      loadSphere();
+    }
+  });    
+}
 
-	// http://stackoverflow.com/questions/21548247/clean-up-threejs-webgl-contexts
-	function remove () {
-		scene.remove(sphere);
-		while (domEl.firstChild) {
-			domEl.removeChild(domEl.firstChild);
-		}
-	}
+function createThumbs(){
+for(var i = 0;i<images.length;i++){
+  var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
+  $("#thumbs").append(html);
+}
+}
 
-	return {
-		resize: resize,
-		remove: remove
-	}
-};
+function fullscreen(){
+  var element = document.body;
+  element.requestFullscreen = element.requestFullscreen || 
+      element.mozRequestFullscreen || 
+      element.mozRequestFullScreen || 
+      element.webkitRequestFullscreen;
+
+  element.requestFullscreen();
+}

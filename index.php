@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Virtual Tour</title>
+  <title>Sphere</title>
   <style>
     body { 
       margin: 0px; 
@@ -21,181 +21,61 @@
       float: right;
     }
 
+    #info {
+      display:none;
+      position: absolute;
+      bottom: 0px; width: 50%;
+      background-color: #000000;
+      opacity: 0.4;
+      color: #ffffff;
+      padding: 5px;
+      font-family: Monospace;
+      font-size: 15px;
+      text-align: center;
+      border-radius: 10px;
+    }
+
     
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 128px;
-}
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 128px;
-  //background-color: #f5f5f5;
-}
+    /* Sticky footer styles
+    -------------------------------------------------- */
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+    body {
+      /* Margin bottom by footer height */
+      margin-bottom: 128px;
+    }
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 128px;
+      //background-color: #f5f5f5;
+    }
   </style>	
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div id="thumbs"></div>  
-  <footer id="footer"><img src="" id="agentImg" class="coner right"></footer>
+  <footer id="footer">
+    <div id="info">
+      <div id="agent"></div>
+      <div id="phone"></div>
+      <div id="address"></div>
+    </div>
+    <img src="" id="agentImg" class="coner right">
+  </footer>
   <div id="sphere"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="js/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>	
   <script src="js/Detector.js"></script>		
-  <script>
-    //scene setup
-    var webglEl = document.getElementById('sphere');
-    var width  = window.innerWidth;
-    var height = window.innerHeight;
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
-    camera.position.x = 0.1;
-    var controls;
-
-    var renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
-    renderer.setSize(width, height);
-
-    //load info and check sphere img
-    var pid = getVar("pid");
-    var name,phone,site;
-    var images = [];
-    $(document).ready(function(){
-      $.getJSON("get.php",{pid:pid},function(data){
-        var imgs = JSON.parse(data[0].images);
-        imgs.forEach(function(img){
-          images.push(img.img);
-        });
-        name = data[0].name;
-        site = data[0].site;
-        phone = data[0].phone;
-      }).done(function(){   
-        loadImage(0);
-        createThumbs();
-        $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
-      });
-
-      $("#thumbs").on("mouseover","img",function(){
-        var image = $(this).attr('image');
-        loadImage(image);
-        $(".thumb").fadeTo( "slow", .3 );
-        $( this ).fadeTo( "fast", 1 );
-      });
-    });
-
-
-    loadControls();
-    webglEl.appendChild(renderer.domElement);
-
-    render();
-
-    function render() {
-      controls.update();
-      requestAnimationFrame(render);
-      renderer.render(scene, camera);
-    }
-
-    function onMouseWheel(event) {
-      event.preventDefault();
-      
-      if (event.wheelDeltaY) { // WebKit
-              camera.fov -= event.wheelDeltaY * 0.05;
-      } else if (event.wheelDelta) { 	// Opera / IE9
-              camera.fov -= event.wheelDelta * 0.05;
-      } else if (event.detail) { // Firefox
-              camera.fov += event.detail * 1.0;
-      }
-
-      camera.fov = Math.max(40, Math.min(100, camera.fov));
-      camera.updateProjectionMatrix();
-    }
-
-    //events
-    document.addEventListener('mousewheel', onMouseWheel, false);
-    document.addEventListener('DOMMouseScroll', onMouseWheel, false);
-    window.addEventListener( 'resize', onWindowResize, false );
-    document.body.addEventListener("mousedown", fullscreen, false);
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize( window.innerWidth, window.innerHeight );
-    }
-
-    function getVar(name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-          results = regex.exec(location.search);
-      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-
-    function imageExists(url, callback) {
-      var img = new Image();
-      img.onload = function() { callback(true); };
-      img.onerror = function() { callback(false); };
-      img.src = url;
-    }
-
-  function loadSphere(){
-    var sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(100, 20, 20),
-      new THREE.MeshBasicMaterial({
-        map: THREE.ImageUtils.loadTexture(sphereIMG)
-      })
-    );
-    sphere.scale.x = -1;
-    scene.add(sphere);
-  }
-
-  function loadControls(){ 
-    controls = new THREE.OrbitControls(camera);
-    controls.noPan = true;
-    controls.noZoom = true; 
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-  }
-
-  function loadImage(i){
-    sphereIMG = "tours/"+pid+"/spheres/"+images[i];
-    imageExists(sphereIMG, function(exists) {
-      if(exists){
-        //console.log('RESULT: url=' + sphereIMG + ', exists=' + exists);
-        loadSphere();
-      }else{
-        alert("Sorry, the tour you chose does not exist");
-        sphereIMG = "station24bay.jpg";
-        loadSphere();
-      }
-    });    
-  }
-
-  function createThumbs(){
-    for(var i = 0;i<images.length;i++){
-      var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
-      $("#thumbs").append(html);
-    }
-  }
-
-  function fullscreen(){
-      var element = document.body;
-      element.requestFullscreen = element.requestFullscreen || 
-          element.mozRequestFullscreen || 
-          element.mozRequestFullScreen || 
-          element.webkitRequestFullscreen;
-
-      element.requestFullscreen();
-  }
-  </script>
+  <script src="js/Photosphere.js"></script>
 </body>
 </html>
