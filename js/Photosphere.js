@@ -15,6 +15,8 @@ var pid = getVar("pid");
 var name,phone,site;
 var images = [];
 var site,phone,agent;
+var audio = $("audio");
+music = audio[0];
 
 $(document).ready(function(){
   $.getJSON("get.php",{pid:pid},function(data){

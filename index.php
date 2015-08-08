@@ -92,7 +92,7 @@
 
 
   <!--MUSIC-->
-  <audio autoplay="" controls="" loop="" preload="">
+  <audio autoplay="" preload="">
     <source src="music/song1.ogg" type="audio/ogg"></source>
     <source src="music/song1.mp3" type="audio/mpeg"></source>
     Your browser does not support the audio element.
