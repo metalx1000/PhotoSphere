@@ -14,6 +14,8 @@ renderer.setSize(width, height);
 var pid = getVar("pid");
 var name,phone,site;
 var images = [];
+var site,phone,agent;
+
 $(document).ready(function(){
   $.getJSON("get.php",{pid:pid},function(data){
     var imgs = JSON.parse(data[0].images);
@@ -26,7 +28,7 @@ $(document).ready(function(){
     address = data[0].address;
   
     $("#address").html(address);
-    $("#agent").html(agent);
+    $("#agent").html("Agent: " + agent);
     $("#phone").html(phone);
   }).done(function(){   
     loadImage(0);
@@ -34,11 +36,26 @@ $(document).ready(function(){
     $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
   });
 
+  //hover over Agent's Photo
   $("#agentImg").hover(function(){
     $("#info").fadeTo( "slow", .4 );
   },function(){
-    $("#info").fadeTo( "slow", 0 );
+    setTimeout(function(){
+      $("#info").fadeTo( "slow", 0 );
+    },3000);
   });
+
+  //click agent info box
+  $("#agentInfo").click(function(){
+    window.open(site, '_blank');
+  });
+
+  //click sphere info box
+  $("body").on("click","#sphereInfo",function(){
+    console.log("fbk");
+    window.open("http://filmsbykris.com", '_blank');
+  });
+
 
   $("#thumbs").on("mouseover","img",function(){
     var image = $(this).attr('image');
