@@ -18,12 +18,21 @@ var site,phone,agent;
 var audio = $("audio");
 music = audio[0];
 
+var im;
 $(document).ready(function(){
-  $.getJSON("get.php",{pid:pid},function(data){
-    var imgs = JSON.parse(data[0].images);
-    imgs.forEach(function(img){
-      images.push(img.img);
+  $.get("getSpheres.php",{pid:pid},function(data){
+    data = data.split(",");
+    data.forEach(function(img){
+      if(img){
+        images.push(img);
+      };
     });
+  }).done(function(){
+    loadImage(0);
+    createThumbs();
+  });
+
+  $.getJSON("get.php",{pid:pid},function(data){
     agent = data[0].agent;
     site = data[0].site;
     phone = data[0].phone;
@@ -33,8 +42,6 @@ $(document).ready(function(){
     $("#agent").html("Agent: " + agent);
     $("#phone").html(phone);
   }).done(function(){   
-    loadImage(0);
-    createThumbs();
     $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
   });
 

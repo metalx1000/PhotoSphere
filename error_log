@@ -8,3 +8,5 @@
 [06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 9
 [06-Aug-2015 11:51:48 America/Chicago] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, null given in /home3/metalx/public_html/PhotoSphere/get.php on line 13
 [06-Aug-2015 12:01:37 America/Chicago] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home3/metalx/public_html/PhotoSphere/get.php on line 9
+[09-Aug-2015 18:52:57 America/Chicago] PHP Warning:  scandir(tours//spheres/): failed to open dir: No such file or directory in /home3/metalx/public_html/tours/PhotoSphereV1/getspheres.php on line 4
+[09-Aug-2015 18:52:57 America/Chicago] PHP Warning:  scandir(): (errno 2): No such file or directory in /home3/metalx/public_html/tours/PhotoSphereV1/getspheres.php on line 4
