@@ -18,8 +18,9 @@ var site,phone,agent;
 var audio = $("audio");
 music = audio[0];
 
-var im;
 $(document).ready(function(){
+  autoPlayMusic();
+
   $.get("getSpheres.php",{pid:pid},function(data){
     data = data.split(",");
     data.forEach(function(img){
@@ -177,4 +178,13 @@ function fullscreen(){
       element.webkitRequestFullscreen;
 
   element.requestFullscreen();
+}
+
+function autoPlayMusic(){
+  var m = getVar("music");
+  if(m){
+    music.play();
+    $("#musicCredit").show();
+  };
+
 }

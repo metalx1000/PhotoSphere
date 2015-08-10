@@ -81,7 +81,7 @@
       <div>Sphere By: Kris Occhipinti</div>
       <div>(239)963-4889</div>
       <div>Click Here For More Info</div>
-      <div>Music By: www.bensound.com</div>
+      <div id="musicCredit" style="display:none">Music By: www.bensound.com</div>
     </div>
   </div>
 
@@ -92,7 +92,7 @@
 
 
   <!--MUSIC-->
-  <audio autoplay="" preload="">
+  <audio preload="">
     <source src="music/song1.ogg" type="audio/ogg"></source>
     <source src="music/song1.mp3" type="audio/mpeg"></source>
     Your browser does not support the audio element.
