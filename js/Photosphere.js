@@ -161,10 +161,12 @@ function loadImage(i){
 }
 
 function createThumbs(){
-for(var i = 0;i<images.length;i++){
-  var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
-  $("#thumbs").append(html);
-}
+  for(var i = 0;i<images.length;i++){
+    var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
+    $("#thumbs").append(html);
+  }
+
+  $(".thumb:first").fadeTo("slow",1); 
 }
 
 function fullscreen(){
