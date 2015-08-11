@@ -12,9 +12,8 @@ renderer.setSize(width, height);
 
 //load info and check sphere img
 var pid = getVar("pid");
-var name,phone,site;
+var name,phone,site,address,agent,sold,active,listed;
 var images = [];
-var site,phone,agent;
 var audio = $("audio");
 music = audio[0];
 
@@ -38,7 +37,13 @@ $(document).ready(function(){
     site = data[0].site;
     phone = data[0].phone;
     address = data[0].address;
-  
+    
+    //Check if property is sold
+    sold = data[0].sold;
+    if(sold){
+      $("#sold").fadeTo("slow",1);
+    }
+
     $("#address").html(address);
     $("#agent").html("Agent: " + agent);
     $("#phone").html(phone);

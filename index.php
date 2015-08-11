@@ -43,7 +43,15 @@
 
     }
 
-    
+    #sold{
+      display: none;
+      position: absolute;
+      width: 25%;
+      top: 40%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
     /* Sticky footer styles
     -------------------------------------------------- */
     html {
@@ -88,6 +96,8 @@
   <footer id="footer">
     <img src="" id="agentImg" class="coner right">
   </footer>
+
+  <img src="res/sold.png" id="sold"></div>
   <div id="sphere"></div>
 
 
