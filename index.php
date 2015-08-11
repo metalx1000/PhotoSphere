@@ -97,7 +97,7 @@
     <img src="" id="agentImg" class="coner right">
   </footer>
 
-  <img src="res/sold.png" id="sold"></div>
+  <img src="res/sold.png" id="sold">
   <div id="sphere"></div>
 
 
