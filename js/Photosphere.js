@@ -12,7 +12,7 @@ renderer.setSize(width, height);
 
 //load info and check sphere img
 var pid = getVar("pid");
-var name,phone,site,address,agent,sold,active,listed;
+var name,phone,site,address,agent,sold,active,expired;
 var images = [];
 var audio = $("audio");
 music = audio[0];
@@ -38,6 +38,14 @@ $(document).ready(function(){
     phone = data[0].phone;
     address = data[0].address;
     
+    //check if listing is avalable
+    expired = data[0].expired;
+    active = data[0].active;
+    if(expired || active == "false"){
+      document.write("Listing Not Available!");
+      alert("Listing Not Available!");
+      //window.location.href = "../index.php";
+    }
     //Check if property is sold
     sold = data[0].sold;
     if(sold){
