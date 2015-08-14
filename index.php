@@ -7,12 +7,14 @@
       margin: 0px; 
       overflow: hidden; 
       background-color: #000; 
-    } #thumbs{
+    } #thumbs, #thumbBtn{
       position: absolute;
-    } .thumb{
+    } .thumb,#thumbShow{
       width: 100px;
       border-radius: 10px;
       opacity: 0.4;
+    }#thumbShow{
+      width: 50px;
     } .thumb:hover{
       opacity: 1.0;
     }.coner{
@@ -77,6 +79,9 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
+  <div id="thumbBtn">
+    <img src="res/camera.png" id="thumbShow">
+  </div>
   <div id="thumbs"></div>  
   <div id="info">
     <div id="agentInfo" class="info">

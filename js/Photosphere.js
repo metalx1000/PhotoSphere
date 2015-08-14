@@ -94,6 +94,9 @@ $(document).ready(function(){
   });
 
   checkInfo();
+  smallScreen();
+
+  $("#thumbShow").on("mouseover",showThumbs);
 });
 
 
@@ -215,4 +218,24 @@ function checkInfo(){
   if(agent == "false"){
     $("#agentInfo").hide();
   }
+}
+
+function smallScreen(){
+  if(screen.width<800){
+    $("#thumbShow").show();
+    $("#thumbs").hide();
+  }else{
+    $("#thumbShow").hide();
+    $("#thumbs").show();
+  }
+}
+
+function showThumbs(){
+  $("#thumbShow").hide();
+  $("#thumbs").show();
+
+  setTimeout(function(){
+    $("#thumbShow").show();
+    $("#thumbs").hide();
+  },5000);
 }
