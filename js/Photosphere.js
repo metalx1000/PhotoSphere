@@ -15,10 +15,15 @@ var pid = getVar("pid");
 var name,phone,site,address,agent,sold,active,expired;
 var images = [];
 var audio = $("audio");
-music = audio[0];
+var music = audio[0];
 
 $(document).ready(function(){
   autoPlayMusic();
+
+  //fade out info
+  setTimeout(function(){
+    $("#info").fadeTo( "slow", 0 );
+  },3000);
 
   $.get("getSpheres.php",{pid:pid},function(data){
     data = data.split(",");
@@ -69,14 +74,14 @@ $(document).ready(function(){
   });
 
   //click agent info box
-  $("#agentInfo").click(function(){
-    window.open(site, '_blank');
-  });
+  $(".info").click(function(){
+    var attr = $(this).attr("id");
 
-  //click sphere info box
-  $("body").on("click","#sphereInfo",function(){
-    console.log("fbk");
-    window.open("http://filmsbykris.com", '_blank');
+    if(attr == "agentInfo"){
+      window.open(site, '_blank');
+    }else if(attr == "sphereInfo"){
+      window.open("http://filmsbykris.com", '_blank');
+    }
   });
 
 
@@ -176,7 +181,7 @@ function loadImage(i){
 
 function createThumbs(){
   for(var i = 0;i<images.length;i++){
-    var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">'
+    var html = '<img src="tours/'+pid+'/thumbs/'+images[i]+'" class="thumb" image="'+i+'">';
     $("#thumbs").append(html);
   }
 
@@ -198,6 +203,6 @@ function autoPlayMusic(){
   if(m){
     music.play();
     $("#musicCredit").show();
-  };
+  }
 
 }

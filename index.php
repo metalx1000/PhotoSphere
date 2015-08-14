@@ -25,7 +25,7 @@
     }
 
     #info {
-      display:none;
+      //display:none;
       position: absolute;
       bottom: 0px; width: 50%;
       opacity: 0.4;
@@ -35,6 +35,7 @@
       font-family: Monospace;
       font-size: 15px;
       text-align: center;
+      z-index:10;
     }.info{
       background-color: #000000;
       border-radius: 10px;
@@ -77,8 +78,8 @@
 </head>
 <body>
   <div id="thumbs"></div>  
- <div id="info">
-     <div id="agentInfo" class="info">
+  <div id="info">
+    <div id="agentInfo" class="info">
       <div id="agent"></div>
       <div id="phone"></div>
       <div id="address"></div>
