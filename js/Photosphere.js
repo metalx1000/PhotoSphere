@@ -25,6 +25,7 @@ $(document).ready(function(){
     $("#info").fadeTo( "slow", 0 );
   },3000);
 
+  
   $.get("getSpheres.php",{pid:pid},function(data){
     data = data.split(",");
     data.forEach(function(img){
@@ -58,7 +59,7 @@ $(document).ready(function(){
     }
 
     $("#address").html(address);
-    $("#agent").html("Agent: " + agent);
+    $("#agent").html(agent);
     $("#phone").html(phone);
   }).done(function(){   
     $("#agentImg").attr("src","tours/"+pid+"/agent/agent.jpg");
@@ -91,6 +92,8 @@ $(document).ready(function(){
     $(".thumb").fadeTo( "slow", .3 );
     $( this ).fadeTo( "fast", 1 );
   });
+
+  checkInfo();
 });
 
 
@@ -205,4 +208,11 @@ function autoPlayMusic(){
     $("#musicCredit").show();
   }
 
+}
+
+function checkInfo(){
+  var agent = getVar("agentInfo");
+  if(agent == "false"){
+    $("#agentInfo").hide();
+  }
 }
