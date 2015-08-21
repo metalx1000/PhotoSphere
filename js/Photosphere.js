@@ -12,6 +12,7 @@ renderer.setSize(width, height);
 
 //load info and check sphere img
 var pid = getVar("pid");
+var info = getVar("info");
 var name,phone,site,address,agent,sold,active,expired;
 var images = [];
 var audio = $("audio");
@@ -19,7 +20,10 @@ var music = audio[0];
 
 $(document).ready(function(){
   autoPlayMusic();
-
+  if(info == "false"){
+    $(".info").hide(); 
+    $("#footer").hide();
+  }
   //fade out info
   setTimeout(function(){
     $("#info").fadeTo( "slow", 0 );
@@ -77,11 +81,13 @@ $(document).ready(function(){
   //click agent info box
   $(".info").click(function(){
     var attr = $(this).attr("id");
-
-    if(attr == "agentInfo"){
-      window.open(site, '_blank');
-    }else if(attr == "sphereInfo"){
-      window.open("http://filmsbykris.com", '_blank');
+    var active = $("#info").css("opacity");
+    if(active > 0){
+      if(attr == "agentInfo"){
+        window.open(site, '_blank');
+      }else if(attr == "sphereInfo"){
+        window.open("http://filmsbykris.com", '_blank');
+      }
     }
   });
 
@@ -221,7 +227,7 @@ function checkInfo(){
 }
 
 function smallScreen(){
-  if(screen.width<800){
+  if(screen.width<800 && images.length > 5){
     $("#thumbShow").show();
     $("#thumbs").hide();
   }else{
